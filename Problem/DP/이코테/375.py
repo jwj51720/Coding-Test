@@ -1,3 +1,4 @@
+# 금광
 # fmt:off
 def main(N, M, matrix):
     dp = [[0] * (M + 1) for _ in range(N)] # dp를 3개 동시에
