@@ -13,6 +13,9 @@ if [ -z "$PROBLEM_PATH" ]; then
     exit 1
 fi
 
+# Set default mode to "test" if $2 is not provided
+MODE="${2:-test}"
+
 # Set custom input and output file paths if provided
 if [ ! -z "$3" ]; then
     INPUT_FILE="$3"
@@ -22,11 +25,11 @@ if [ ! -z "$4" ]; then
 fi
 
 # Execute different commands based on "test" or "end".
-if [ "$2" == "test" ]; then
+if [ "$MODE" == "test" ]; then
     python run.py -p "$PROBLEM_PATH" -i "$INPUT_FILE" -o "$OUTPUT_FILE" -c
-elif [ "$2" == "end" ]; then
+elif [ "$MODE" == "end" ]; then
     python run.py -p "$PROBLEM_PATH" -i "$INPUT_FILE" -o "$OUTPUT_FILE"
 else
-    echo "Usage: ./run_problem.sh problem_number test|end [input_file] [output_file]"
+    echo "Usage: ./run_problem.sh problem_number [test|end] [input_file] [output_file]"
     exit 1
 fi
