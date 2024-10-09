@@ -1,4 +1,5 @@
 def complete_check(sequence, MATRIX, N):
+    """해가 완성되었을 때 부호 조건을 만족하는지 확인하는 함수"""
     for i in range(N):
         total = 0
         for j in range(i, N):
@@ -13,6 +14,21 @@ def complete_check(sequence, MATRIX, N):
     return True
 
 
+def is_valid(sequence, MATRIX):
+    """현재까지 완성된 부분 수열이 부호 행렬 조건을 역순으로 만족하는지 확인"""
+    end = len(sequence) - 1
+    s = 0
+    for i in range(end, -1, -1):  # end부터 역순으로 합을 확인
+        s += sequence[i]
+        if MATRIX[i][end - i] == "+" and s <= 0:
+            return False
+        elif MATRIX[i][end - i] == "-" and s >= 0:
+            return False
+        elif MATRIX[i][end - i] == "0" and s != 0:
+            return False
+    return True
+
+
 def backtrack(sequence, MATRIX, N):
     # 1. Base Case: 해가 완성되었는지 확인
     if len(sequence) == N:
@@ -22,22 +38,14 @@ def backtrack(sequence, MATRIX, N):
         return False
 
     # 2. for loop: -10부터 10까지의 수들을 시도
-    # ** 탐색 범위 최적화: 부호 행렬에 따라 값 선택
-    idx = len(sequence)
-    if MATRIX[idx][0] == "+":
-        candidates = range(1, 11)  # 양수만 탐색
-    elif MATRIX[idx][0] == "-":
-        candidates = range(-10, 0)  # 음수만 탐색
-    else:
-        candidates = [0]  # 0만 탐색
-
-    for num in candidates:
+    for num in range(-10, 11):
+        # 3. if statement: 유효한 후보인지 검사
         sequence.append(num)  # 후보 추가
-        if backtrack(sequence, MATRIX, N):  # 재귀 호출
-            # 여기선 하나만 출력하고 바로 탈출해야 해서
-            # 드물게 종료 조건 넣음
-            return True
-        sequence.pop()  # 백트래킹: 선택을 되돌림
+        if is_valid(sequence, MATRIX):  # 후보가 유효한지 검사
+            # 4. append/recurssive/pop: 후보 추가 후 재귀 호출
+            if backtrack(sequence, MATRIX, N):  # 재귀 호출로 다음 값 탐색
+                return True
+        sequence.pop()  # 백트래킹: 후보 제거 후 다음 후보로
 
 
 def main(N, MATRIX):
