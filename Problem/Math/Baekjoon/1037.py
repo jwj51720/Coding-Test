@@ -21,6 +21,11 @@ def main(DIVISOR_NUM, DIVISOR):
     return
 
 
+def best(DIVISOR_NUM, DIVISOR):
+    DIVISOR.sort()
+    print(DIVISOR[0] * DIVISOR[-1])
+
+
 if __name__ == "__main__":
     DIVISOR_NUM = int(input())
     DIVISOR = list(map(int, input().split()))
