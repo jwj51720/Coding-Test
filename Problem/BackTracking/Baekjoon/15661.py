@@ -14,7 +14,7 @@ def backtracking(idx, N, S, start_team, min_diff):
         min_diff[0] = min(min_diff[0], diff)
         if start_score >= link_score:
             return
-    
+        
     for i in range(idx, N):
         start_team.append(i)
         backtracking(i + 1, N, S, start_team, min_diff)
@@ -28,6 +28,8 @@ def main(N, S):
     시간복잡도에 큰 영향을 주지 않는 요소라면 굳이 가지고 다니지 말고,
     최소한의 것만 가지고 다니자. 그 최소한의 것이 min_diff(정답), start_team
     ** python3는 시간초과가 나고, pypy3로 하면 시간초과가 안 난다.
+    ** N-1, N//2 모두 정답이긴 하나, N-1이 더 적은 횟수로 돈다.
+    ** if start_score >= link_score: 탈출을 하지 않아도 가능하다.
     """
     min_diff = [float('inf')]
     backtracking(0, N, S, [], min_diff)
